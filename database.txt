@@ -1,0 +1,15 @@
+CREATE TABLE person (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    age INT,
+    spouse_id INT,
+    FOREIGN KEY (spouse_id) REFERENCES person(id)
+);
+
+CREATE TABLE relationship (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    parent_id INT NOT NULL,
+    child_id INT NOT NULL,
+    FOREIGN KEY (parent_id) REFERENCES person(id),
+    FOREIGN KEY (child_id) REFERENCES person(id)
+);
