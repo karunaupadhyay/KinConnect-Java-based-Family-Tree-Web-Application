@@ -1,0 +1,105 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class Person {
+    private String name;
+    private int age;
+    private List<Person> children;
+    private Person spouse;
+    
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+        this.children = new ArrayList<>();
+    }
+    
+    // Getters and setters
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public int getAge() {
+        return age;
+    }
+    
+    public void setAge(int age) {
+        this.age = age;
+    }
+    
+    public List<Person> getChildren() {
+        return children;
+    }
+    
+    public void setChildren(List<Person> children) {
+        this.children = children;
+    }
+    
+    public Person getSpouse() {
+        return spouse;
+    }
+    
+    public void setSpouse(Person spouse) {
+        this.spouse = spouse;
+    }
+    
+    // Add child to the family
+    public void addChild(Person child) {
+        children.add(child);
+    }
+    
+    // Marriage
+    public void marry(Person spouse) {
+        this.spouse = spouse;
+        spouse.setSpouse(this);
+    }
+    
+    // Display family information
+    public void displayFamily() {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        System.out.println("Spouse: " + (spouse != null ? spouse.getName() : "N/A"));
+        System.out.println("Children:");
+        for (Person child : children) {
+            System.out.println("- " + child.getName());
+        }
+    }
+}
+
+public class FamilyTreeExample {
+    public static void main(String[] args) {
+        // Creating individuals
+        Person father = new Person("John", 40);
+        Person mother = new Person("Jane", 38);
+        Person child1 = new Person("Alice", 12);
+        Person child2 = new Person("Bob", 10);
+        
+        // Establishing relationships
+        father.marry(mother);
+        father.addChild(child1);
+        father.addChild(child2);
+        
+        // Displaying family information
+        System.out.println("Father's family:");
+        father.displayFamily();
+        System.out.println("\nMother's family:");
+        mother.displayFamily();
+    }
+}
+
+@RestController
+@RequestMapping("/api/dashboard")
+public class DashboardController {
+
+    @Autowired
+    private FamilyTreeService familyTreeService;
+
+    @GetMapping("/statistics")
+    public ResponseEntity<DashboardStatistics> getDashboardStatistics() {
+        DashboardStatistics statistics = familyTreeService.getDashboardStatistics();
+        return ResponseEntity.ok(statistics);
+    }
+}
